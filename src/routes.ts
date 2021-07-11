@@ -1,14 +1,9 @@
-import {Router} from 'express';
-import {SettingsController} from './controllers/SettingsController';
-import { UsersController } from './controllers/UsersController';
+import { Router } from 'express'
+import UserController from './controllers/UserController'
 
-const routes = Router();
+const routes = Router()
 
-const settingsController = new SettingsController();
-const usersController = new UsersController();
+routes.get('/users', UserController.index)
+routes.post('/users', UserController.store)
 
-routes.post("/settings", settingsController.create);
-routes.post("/users", usersController.create);
-
-
-export {routes};
+export default routes
