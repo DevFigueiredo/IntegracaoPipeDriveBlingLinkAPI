@@ -1,7 +1,5 @@
-import express from 'express'
-import cors from 'cors'
-import mongoose from 'mongoose'
-
+import * as express from 'express'
+// import databaseConfig from './database'
 import routes from './routes'
 
 class App {
@@ -9,19 +7,16 @@ class App {
 
   public constructor () {
     this.express = express()
-
     this.middlewares()
-    this.database()
     this.routes()
+    this.database()
   }
 
+  private database (): void{
+    // databaseConfig.connect(`mongodb+srv://LinkAPI:linkapi@cluster0.onsj6.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`)
+  }
   private middlewares (): void {
     this.express.use(express.json())
-    this.express.use(cors())
-  }
-
-  private database (): void {
-    mongoose.connect(`mongodb://${process.env.DB_HOST}:27017/tsexample`, { useNewUrlParser: true })
   }
 
   private routes (): void {
