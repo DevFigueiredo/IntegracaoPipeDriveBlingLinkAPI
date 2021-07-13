@@ -1,6 +1,4 @@
 import * as express from 'express'
-import * as swaggerUI from 'swagger-ui-express'
-import swaggerDocs from './swagger.json'
 import databaseConfig from './database'
 import routes from './routes'
 import * as dotenv from 'dotenv'
@@ -24,7 +22,6 @@ class App {
   }
 
   private routes (): void {
-    this.express.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs))
     this.express.use(routes)
   }
 }
