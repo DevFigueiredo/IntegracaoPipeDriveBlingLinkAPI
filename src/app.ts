@@ -1,5 +1,5 @@
 import * as express from 'express'
-// import databaseConfig from './database'
+import databaseConfig from './database'
 import routes from './routes'
 
 class App {
@@ -13,7 +13,8 @@ class App {
   }
 
   private database (): void{
-    // databaseConfig.connect(`mongodb+srv://LinkAPI:linkapi@cluster0.onsj6.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`)
+    const urlCluster = 'mongodb+srv://LinkAPI:linkapi@cluster0.onsj6.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+    databaseConfig.connect(urlCluster)
   }
   private middlewares (): void {
     this.express.use(express.json())

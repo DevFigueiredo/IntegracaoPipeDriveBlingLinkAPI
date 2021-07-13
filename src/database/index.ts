@@ -1,10 +1,10 @@
-import mongoose from 'mongoose'
+import * as mongoose from 'mongoose'
 
 class Database {
-  public connect (url: string): void {
+  public connect (urlCluster: string): void {
     try {
-      mongoose.connect(url, {
-        useNewUrlParser: true
+      mongoose.connect(urlCluster, {
+        useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true
       })
     } catch (error) {
       console.log(error)

@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose'
+import * as mongoose from 'mongoose'
 
 export interface OrderInterface {
   idOrder: string
@@ -11,26 +11,26 @@ export interface OrderInterface {
       description: string
       currency: string
       totalValue: number
-      blingorderSended: number
+      blingorderSended: boolean
     }
 }
 
-const Order = new Schema(
+const Order = new mongoose.Schema(
   {
-    idOrder: { type: String, required: true, unique: true },
+    idOrder: { type: String, unique: true },
     customer: {
-      company: { type: String, required: true },
-      contactPerson: { type: String, required: true }
+      company: { type: String },
+      contactPerson: { type: String }
     },
     item: {
-      code: { type: String, required: true, unique: true },
-      description: { type: String, required: true },
-      currency: { type: String, required: true },
-      totalValue: { type: Number, required: true },
-      blingorderSended: { type: Boolean, required: true }
+      code: { type: String, unique: true },
+      description: { type: String },
+      currency: { type: String },
+      totalValue: { type: Number },
+      blingorderSended: { type: Boolean }
     }
   },
   { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }
 )
 
-export const OrderModel = model<OrderInterface>('Order', Order)
+export const OrderModel = mongoose.model<OrderInterface>('Order', Order)

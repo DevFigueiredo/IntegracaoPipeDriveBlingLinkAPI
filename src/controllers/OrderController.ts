@@ -4,8 +4,8 @@ import { Request, Response } from 'express'
 import * as dotenv from 'dotenv'
 import { DealPipeDriveServices } from '../services/PipeDrive/DealPipeDriveServices'
 import { OrderBlingServices } from '../services/Bling/OrderBlingServices'
-import { convertDealToXml } from '../utils/xmlConverter/DealXML'
 import { OrderServices } from '../services/Application/OrderService'
+import { OrderInterface } from '../schemas/Order'
 dotenv.config()
 interface Deal {
 id?: string
@@ -19,9 +19,9 @@ weighted_value: string
 }
 
 class OrderController {
-  public async index (request: Request, response: Response): Promise<Response> {
+  public async store (request: Request, response: Response): Promise<Response> {
     const params = request.query
-    const status: string = params.status as string
+    const status: string = 'won' || params.status as string
 
     try {
       const dealPipeDriveService = new DealPipeDriveServices()
@@ -29,7 +29,9 @@ class OrderController {
       const orderBlingService = new OrderBlingServices()
 
       const deals = await dealPipeDriveService.find(status)
-
+      if (!deals) {
+        return response.status(401).json({ messageError: 'Não foi possível conectar-se ao servidor do PipeDrive' })
+      }
       const promises = deals.data.forEach(async deal => {
         const orderBling = {
           name: deal.owner_name,
@@ -37,12 +39,14 @@ class OrderController {
           title: deal.title,
           unitValue: deal.value
         }
-        const dealXML = convertDealToXml(orderBling)
-
-        const orderBlingSended = await orderBlingService.create(dealXML)
+        const orderBlingSended = await orderBlingService.store(orderBling)
         const blingorderSended = !!orderBlingSended
 
-        const Order = {
+        if (!blingorderSended) {
+          return response.status(401).json({ messageError: 'Não foi possível conectar-se ao servidor do Bling' })
+        }
+
+        const Order: OrderInterface = {
           idOrder: deal.id,
           customer: {
             company: deal.org_name,
@@ -55,21 +59,25 @@ class OrderController {
             totalValue: deal.weighted_value,
             blingorderSended: blingorderSended
           }
-
         }
         const orderService = new OrderServices()
-        orderService.create(Order)
+        const order = orderService.store(Order)
+        if (!order) {
+          return response.status(401).json({ messageError: 'Não foi possível salvar os dados no banco da integração - MongoDB' })
+        }
       })
       await Promise.all(promises)
 
       return response.json(deals)
     } catch (error) {
-      console.log(error)
+      return response.status(401).json({ messageError: error.message })
     }
   }
 
-  public async create (request: Request, response: Response): Promise<Response> {
-    return response.json({ })
+  public async index (request: Request, response: Response): Promise<Response> {
+    const orderService = new OrderServices()
+    const orders = await orderService.index()
+    return response.json(orders)
   }
 }
 

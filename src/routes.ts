@@ -5,7 +5,7 @@ const routes = Router()
 
 const orderController = new OrderController()
 
+routes.post('/orders', orderController.store)
 routes.get('/orders', orderController.index)
-// routes.post('/users', UserController.store)
 
 export default routes
