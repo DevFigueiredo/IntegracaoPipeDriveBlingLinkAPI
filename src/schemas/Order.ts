@@ -1,19 +1,5 @@
 import * as mongoose from 'mongoose'
-
-export interface OrderInterface {
-  idOrder: string
-    customer: {
-      company: string
-      contactPerson: string
-    },
-    item: {
-      code: string
-      description: string
-      currency: string
-      totalValue: number
-      blingorderSended: boolean
-    }
-}
+import { OrderApplication } from '../interfaces/OrderApplication'
 
 const Order = new mongoose.Schema(
   {
@@ -33,4 +19,4 @@ const Order = new mongoose.Schema(
   { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }
 )
 
-export const OrderModel = mongoose.model<OrderInterface>('Order', Order)
+export const OrderModel = mongoose.model<OrderApplication>('Order', Order)

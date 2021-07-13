@@ -1,6 +1,12 @@
+/* eslint-disable camelcase */
 export interface DealInterface {
-    name: string
-    code: string
-    title: string
-    unitValue: string
-  }
+  owner_name: string
+  id: string
+  title: string
+  value: number
+  org_name: string
+  person_name: string
+  weighted_value_currency: string
+  weighted_value: number
+
+}

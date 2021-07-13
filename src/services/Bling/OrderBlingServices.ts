@@ -3,18 +3,12 @@ import { blingAPI } from '../../config'
 import * as dotenv from 'dotenv'
 import { AxiosError } from 'axios'
 import { convertDealToXml } from '../../utils/xmlConverter/DealXML'
+import { OrderBlingInterface } from '../../interfaces/OrderBling'
 
 dotenv.config()
 
-interface OrderBling{
-    name: string
-    code: string
-    title: string
-    unitValue: string
-  }
-
 class OrderBlingServices {
-  public async store (orderXML: OrderBling): Promise<Response> {
+  public async store (orderXML: OrderBlingInterface): Promise<Response> {
     try {
       const orderBlingXML = convertDealToXml(orderXML)
 

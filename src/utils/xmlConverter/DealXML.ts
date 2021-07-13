@@ -1,7 +1,7 @@
 
-import { DealInterface } from '../../interfaces/Deal'
+import { OrderBlingInterface } from '../../interfaces/OrderBling'
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export const convertDealToXml = ({ name, code, title, unitValue }: DealInterface) => (
+export const convertDealToXml = ({ name, code, title, unitValue }: OrderBlingInterface) => (
   `
   <?xml version="1.0" encoding="ISO-8859-1"?>
     <pedido>

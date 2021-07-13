@@ -1,7 +1,7 @@
 
-export interface UserInterface {
+export interface OrderBlingInterface {
     name: string
-    code?: string
-    title?: string
-    unitValue?: string
+    code: string
+    title: string
+    unitValue: number
   }
