@@ -23,7 +23,7 @@ class OrderController {
       const deals = await dealPipeDriveService.find(status)
 
       if (!deals) {
-        return response.status(401).json({ messageError: 'Não foi possível conectar-se ao servidor do PipeDrive' })
+        return response.status(401).json({ messageError: 'Unable to connect to PipeDrive server' })
       }
 
       const integrationOrders = deals.data.forEach(async (deal: DealInterface) => {
@@ -37,7 +37,7 @@ class OrderController {
         const blingorderSended = !!orderBlingSended
 
         if (!blingorderSended) {
-          return response.status(401).json({ messageError: 'Não foi possível conectar-se ao servidor do Bling' })
+          return response.status(401).json({ messageError: 'Unable to connect to Bling server' })
         }
 
         const Order: OrderApplication = {
@@ -57,7 +57,7 @@ class OrderController {
         const orderService = new OrderServices()
         const order = orderService.store(Order)
         if (!order) {
-          return response.status(401).json({ messageError: 'Não foi possível salvar os dados no banco da integração - MongoDB' })
+          return response.status(401).json({ messageError: 'Unable to connect to integration database - MongoDB' })
         }
       })
       await Promise.all(integrationOrders)

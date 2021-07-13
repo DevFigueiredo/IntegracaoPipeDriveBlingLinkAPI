@@ -1,6 +1,10 @@
 import * as express from 'express'
+import * as swaggerUI from 'swagger-ui-express'
+import swaggerDocs from './swagger.json'
 import databaseConfig from './database'
 import routes from './routes'
+import * as dotenv from 'dotenv'
+dotenv.config()
 
 class App {
   public express: express.Application
@@ -13,14 +17,14 @@ class App {
   }
 
   private database (): void{
-    const urlCluster = 'mongodb+srv://LinkAPI:linkapi@cluster0.onsj6.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
-    databaseConfig.connect(urlCluster)
+    databaseConfig.connect(process.env.MONGO_DB_CONNECT)
   }
   private middlewares (): void {
     this.express.use(express.json())
   }
 
   private routes (): void {
+    this.express.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs))
     this.express.use(routes)
   }
 }
