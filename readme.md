@@ -38,11 +38,6 @@ $ yarn dev
 ### O servidor iniciará na porta:3333 - acesse <http://localhost:3333> 
 
 
-### Documentação da API do Projeto (Swagger) com as API's expostas
-$ <http://localhost:3333/api-docs>
-
-
-
 ### 🛠 Tecnologias
 
 As seguintes ferramentas foram usadas na construção do projeto:
